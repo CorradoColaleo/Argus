@@ -1,1 +1,0 @@
-Per l’addestramento del modello base è stato utilizzato il dataset di training dataset_half_balanced_usato_per_lama_base_1.json, mentre la fase di testing è stata condotta sul dataset TREC_06.csv
