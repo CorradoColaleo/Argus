@@ -1,0 +1,9 @@
+**********
+Esito (Accuracy): 0.9726
+
+Predizioni Corrette: 14359
+
+Predizioni Totali: 14763
+
+Numero di Formati Sbagliati: 1
+**********
