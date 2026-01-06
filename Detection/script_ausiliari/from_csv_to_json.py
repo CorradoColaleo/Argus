@@ -4,11 +4,7 @@ import json
 CSV_INPUT = "dataset.csv"
 JSON_OUTPUT = "dataset.json"
 
-INSTRUCTION = (
-    'You are a classification model specializing in emails, and your job is to detect phishing: '
-    'respond only with "0" if it is not phishing or "1" if it is phishing, '
-    'without explanations, symbols, additional letters, or other characters.'
-)
+INSTRUCTION = ""
 
 output = []
 
