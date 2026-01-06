@@ -1,0 +1,11 @@
+Per scaricare ollama:
+curl -fsSL https://ollama.com/install.sh | sh
+
+Per far partire ollama:
+ollama serve (potrebbe dire che è già attivo)
+
+Per scaricare il modello llama3.1 con 70B di parametri:
+ollama run llama3.1:70b 
+
+Ricorda di fare anche pip install ollama
+
