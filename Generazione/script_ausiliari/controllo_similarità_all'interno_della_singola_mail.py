@@ -47,11 +47,13 @@ def best_pair_for_ngrams(ngrams):
 # ======================= MAIN =======================
 
 json_path = "insert your path to the JSON file here"
+output_path = "insert your path to the JSON file here"
 threshold = float(input("Threshold di similarità (es. 0.60): "))
 
 with open(json_path, "r", encoding="utf-8") as f:
     data = json.load(f)
 
+filtered_data = []         # <-- JSON finale senza duplicati
 removed_count = 0
 seen_count = 0
 
@@ -62,8 +64,7 @@ for idx, instance in enumerate(data, 1):
     body_text = extract_body(raw_input)
 
     if not body_text:
-        if seen_count <= 5 or seen_count % 500 == 0:
-            print(f"[{seen_count}] body vuoto → ignorata")
+        filtered_data.append(instance)
         continue
 
     cleaned = clean_text(body_text)
@@ -80,13 +81,15 @@ for idx, instance in enumerate(data, 1):
             global_best_pair = (ng1, ng2)
             global_best_n = n
 
+    # === DECISIONE DI RIMOZIONE ===
     if global_best_sim > threshold:
         removed_count += 1
         removed = True
     else:
         removed = False
+        filtered_data.append(instance)  # <-- ISTANZA TENUTA
 
-    # Stampa preview per prime 5 istanze
+    # Preview prime 5
     if idx <= 5:
         print(f"\n=== ISTANZA {idx} PREVIEW ===")
         print(f"Dimensione n-grammi: {global_best_n}")
@@ -96,7 +99,7 @@ for idx, instance in enumerate(data, 1):
         print(global_best_pair[1])
         print(f"\nSimilarità (coseno TF-IDF): {global_best_sim:.4f}")
 
-    # Stampa metriche globali ogni 500 campioni (tranne le prime 5)
+    # Stampa metriche (prime 5 + ogni 500)
     if idx <= 5 or seen_count % 500 == 0:
         print(
             f"[{seen_count}] removed={removed} | "
@@ -104,7 +107,13 @@ for idx, instance in enumerate(data, 1):
             f"removed_total={removed_count}/{seen_count}"
         )
 
+# ===== SALVATAGGIO JSON FILTRATO =====
+with open(output_path, "w", encoding="utf-8") as f:
+    json.dump(filtered_data, f, ensure_ascii=False, indent=2)
+
 print("\n=== RISULTATO FINALE ===")
+print(f"Istanze originali: {len(data)}")
 print(f"Istanze rimosse: {removed_count}")
-print(f"Istanze totali viste: {seen_count}")
+print(f"Istanze finali: {len(filtered_data)}")
 print(f"Percentuale rimossa: {(removed_count / seen_count) * 100:.2f}%")
+print(f"JSON filtrato salvato in: {output_path}")
