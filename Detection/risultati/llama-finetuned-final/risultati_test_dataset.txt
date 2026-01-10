@@ -1,13 +1,13 @@
 **********
-Esito (Accuracy): 0.9933
+Esito (Accuracy): 0.9941
 
-Predizioni Corrette: 8350
+Predizioni Corrette: 8356
 
 Predizioni Totali: 8406
 
 Numero di Formati Sbagliati: 0
 
-Precision: 0.9948
-Recall: 0.9943
-F1-score: 0.9946
+Precision: 0.9943
+Recall: 0.9938
+F1-score: 0.9941
 **********
