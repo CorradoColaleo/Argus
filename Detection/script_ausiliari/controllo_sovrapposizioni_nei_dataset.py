@@ -3,8 +3,8 @@ import json
 from collections import defaultdict
 
 # Percorsi dei dataset
-training_path = r"C:\Users\corra\Desktop\università\AISE\progetto\Argus\dataset\train_dataset.json"
-testing_path  = r"C:\Users\corra\Desktop\università\AISE\progetto\Argus\dataset\test_dataset.json"
+training_path = r""
+testing_path  = r""
 
 # Caricamento dataset
 with open(training_path, "r", encoding="utf-8") as f:

@@ -77,7 +77,7 @@ Allow variation in tone, level of detail, and sentence structure across differen
         entry["output"] = ""
 
     # Salva ogni 10 entry per non perdere i progressi senza rallentare troppo
-    if i % 10 == 0 or i == total:
+    if i % 100 == 0 or i == total:
         with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
 

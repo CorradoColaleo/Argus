@@ -26,6 +26,16 @@ class JsonViewer(tk.Tk):
         tk.Button(top, text="◀ Prev", command=self.prev_item).pack(side=tk.LEFT)
         tk.Button(top, text="Next ▶", command=self.next_item).pack(side=tk.LEFT)
 
+        # ---- input indice manuale ----
+        tk.Label(top, text="Vai a index:").pack(side=tk.LEFT, padx=(20, 5))
+
+        self.index_entry = tk.Entry(top, width=8)
+        self.index_entry.pack(side=tk.LEFT)
+        self.index_entry.bind("<Return>", self.go_to_index)
+
+        tk.Button(top, text="Vai", command=self.go_to_index).pack(side=tk.LEFT, padx=5)
+        # --------------------------------
+
         body = tk.Frame(self)
         body.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
 
@@ -59,13 +69,35 @@ class JsonViewer(tk.Tk):
     def show_item(self):
         if not self.data:
             return
+
         item = self.data[self.index]
-        self._set_text(self.instruction.text_widget, self._clean_text(item.get("instruction", "")))
-        self._set_text(self.input_text.text_widget, self._clean_text(item.get("input", "")))
-        self._set_text(self.output_text.text_widget, self._clean_text(item.get("output", "")))
-        self.idx_label.config(text=f"Index: {self.index} / {len(self.data)-1}")
+
+        self._set_text(
+            self.instruction.text_widget,
+            self._clean_text(item.get("istruction", ""))
+        )
+        self._set_text(
+            self.input_text.text_widget,
+            self._clean_text(item.get("text", ""))
+        )
+        self._set_text(
+            self.output_text.text_widget,
+            self._clean_text(item.get("label", ""))
+        )
+
+        self.idx_label.config(
+            text=f"Index: {self.index} / {len(self.data) - 1}"
+        )
+
+        # aggiorna entry indice
+        self.index_entry.delete(0, tk.END)
+        self.index_entry.insert(0, str(self.index))
 
     def _clean_text(self, text):
+        if text is None:
+            return ""
+        if not isinstance(text, str):
+            text = str(text)
         text = re.sub(r'\s+', ' ', text)
         return text.strip()
 
@@ -84,6 +116,24 @@ class JsonViewer(tk.Tk):
         if self.index < len(self.data) - 1:
             self.index += 1
             self.show_item()
+
+    def go_to_index(self, event=None):
+        if not self.data:
+            return
+        try:
+            idx = int(self.index_entry.get())
+        except ValueError:
+            messagebox.showerror("Errore", "Inserire un indice numerico valido")
+            return
+
+        if 0 <= idx < len(self.data):
+            self.index = idx
+            self.show_item()
+        else:
+            messagebox.showerror(
+                "Errore",
+                f"Indice fuori range (0 – {len(self.data) - 1})"
+            )
 
 if __name__ == "__main__":
     app = JsonViewer()

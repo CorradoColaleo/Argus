@@ -11,7 +11,7 @@ def normalize_text(text: str) -> str:
     return text
 
 # Apri il dataset
-with open(r"C:\Users\corra\Desktop\università\AISE\progetto\Argus\dataset\train_dataset.json", "r", encoding="utf-8") as f:
+with open(r"", "r", encoding="utf-8") as f:
     data = json.load(f)
 
 # Mappa: text -> lista di indici
